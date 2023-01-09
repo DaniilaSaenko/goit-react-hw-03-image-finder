@@ -1,31 +1,27 @@
 import PropTypes from 'prop-types';
-import ImageGalleryItem from 'components/ImageGalleryItem';
-import { List } from './ImageGallery.styled';
 
-const ImageGallery = ({ images, onGetLargeImageUrlAndTags }) => {
-  return (
-    <>
-      <List>
-        {images.map(({ id, webformatURL, tags, largeImageURL }) => {
-          return (
-            <ImageGalleryItem
-              key={id}
-              smallUrl={webformatURL}
-              alt={tags}
-              onGetLargeImageUrlAndTags={onGetLargeImageUrlAndTags}
-              largeUrl={largeImageURL}
-            />
-          );
-        })}
-      </List>
-    </>
-  );
-};
+import { ImageGalleryItem } from '../ImageGalleryItem';
+import { Gallery } from './ImageGallery.styled';
 
-export default ImageGallery;
+export const ImageGallery = ({ posts }) => (
+  <Gallery>
+    {posts.map(({ id, webformatURL, largeImageURL }) => (
+      <ImageGalleryItem
+        key={id}
+        id={id}
+        webformatURL={webformatURL}
+        largeImageURL={largeImageURL}
+      />
+    ))}
+  </Gallery>
+);
 
 ImageGallery.propTypes = {
-  images: PropTypes.arrayOf(
-    PropTypes.shape({ id: PropTypes.number.isRequired })
+  posts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    }).isRequired
   ).isRequired,
 };

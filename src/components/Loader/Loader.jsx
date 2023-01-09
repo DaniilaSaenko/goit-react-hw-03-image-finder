@@ -1,9 +1,8 @@
 import { Oval } from 'react-loader-spinner';
 import { LoaderWrapper } from './Loader.styled';
 
-const Loader = () => {
-  return (
-    <LoaderWrapper>
+export const Loader = () => (
+  <LoaderWrapper>
       <Oval
         height="80"
         width="80"
@@ -13,7 +12,5 @@ const Loader = () => {
         secondaryColor="#98a3e0"
       />
     </LoaderWrapper>
-  );
-};
+);
 
-export default Loader;

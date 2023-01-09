@@ -1,55 +1,55 @@
 import { Component } from 'react';
-import { GoSearch } from 'react-icons/go';
 import PropTypes from 'prop-types';
+
 import {
   Header,
-  Form,
+  SearchForm,
   SearchFormButton,
-  ButtonLabel,
-  Input,
+  SearchFormButtonLabel,
+  SearchFormInput,
 } from './Searchbar.styled';
 
-class Searchbar extends Component {
-  state = { query: '' };
-
-  handleInputChange = event => {
-    this.setState({ query: event.currentTarget.value });
+export class Searchbar extends Component {
+  state = {
+    searchValue: '',
   };
 
-  handleSubmit = event => {
-    event.preventDefault();
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
 
-    if (this.state.query.trim() === '') {
-      return;
-    }
+  handleChangeInput = evt => {
+    const { value } = evt.target;
 
-    this.props.onSubmit(this.state.query);
+    this.setState({ searchValue: value });
+  };
+
+  handleSubmit = evt => {
+    evt.preventDefault();
+
+    const { searchValue } = this.state;
+    this.props.onSubmit(searchValue);
   };
 
   render() {
+    const { searchValue } = this.state;
+
     return (
       <Header>
-        <Form onSubmit={this.handleSubmit}>
+        <SearchForm onSubmit={this.handleSubmit}>
           <SearchFormButton type="submit">
-            <GoSearch size="25" />
-            <ButtonLabel>Search</ButtonLabel>
+            <SearchFormButtonLabel>Search</SearchFormButtonLabel>
           </SearchFormButton>
 
-          <Input
+          <SearchFormInput
             type="text"
-            name="query"
-            autoComplete="off"
-            autoFocus
+            value={searchValue}
+            autocomplete="off"
             placeholder="Search images and photos"
-            onChange={this.handleInputChange}
-            value={this.state.query}
+            onChange={this.handleChangeInput}
           />
-        </Form>
+        </SearchForm>
       </Header>
     );
   }
 }
-
-export default Searchbar;
-
-Searchbar.propTypes = { onSubmit: PropTypes.func.isRequired };

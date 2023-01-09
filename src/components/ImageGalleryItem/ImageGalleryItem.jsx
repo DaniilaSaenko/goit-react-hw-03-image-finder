@@ -1,31 +1,45 @@
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Item, Img } from './ImageGalleryItem.styled';
+import { Modal } from 'components/Modal';
 
-const ImageGalleryItem = ({
-  smallUrl,
-  alt,
-  largeUrl,
-  onGetLargeImageUrlAndTags,
-}) => {
-  return (
-    <Item
-      onClick={() =>
-        onGetLargeImageUrlAndTags({
-          largeUrl: largeUrl,
-          alt: alt,
-        })
-      }
-    >
-      <Img src={smallUrl} alt={alt} width="300" />
-    </Item>
-  );
-};
+import { GalleryItem, GalleryItemImage } from './ImageGalleryItem.styled';
 
-export default ImageGalleryItem;
+export class ImageGalleryItem extends Component {
+  state = {
+    modalImageURL: null,
+  };
 
-ImageGalleryItem.propTypes = {
-  smallUrl: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
-  largeUrl: PropTypes.string.isRequired,
-  onGetLargeImageUrlAndTags: PropTypes.func.isRequired,
-};
+  static propeTypes = {
+    key: PropTypes.number.isRequired,
+    webformatURL: PropTypes.string.isRequired,
+    largeImageURL: PropTypes.string.isRequired,
+  };
+
+  handleImageClick = largeImageURL => {
+    this.setState({ modalImageURL: largeImageURL });
+  };
+
+  closeModal = () => {
+    this.setState(prevState => ({ modalImageURL: !prevState.modalImageURL }));
+  };
+
+  render() {
+    const { webformatURL, largeImageURL, id } = this.props;
+    const { modalImageURL } = this.state;
+
+    return (
+      <>
+        {modalImageURL && (
+          <Modal url={modalImageURL} onClose={this.closeModal} />
+        )}
+
+        <GalleryItem
+          key={id}
+          onClick={() => this.handleImageClick(largeImageURL)}
+        >
+          <GalleryItemImage src={webformatURL} alt={largeImageURL} />
+        </GalleryItem>
+      </>
+    );
+  }
+}
