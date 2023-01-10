@@ -6,7 +6,7 @@ const postsApi = axios.create({
 
 export const PER_PAGE = 12;
 
-export const getPosts = async (params = {}) => {
+export const getImages = async (params = {}) => {
   const { data } = await postsApi.get('/', {
     params: {
       key: '31833677-37f850fc83a2da04e94b97183',

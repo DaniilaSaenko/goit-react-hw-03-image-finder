@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { STATUS } from '../../constants';
-import { getPosts, PER_PAGE as paginationLimit } from '../../services';
+import { getImages, PER_PAGE as paginationLimit } from '../../services';
 import { Wrapper } from './App.styled';
 import { Searchbar } from '../Searchbar';
 import { ImageGallery } from '../ImageGallery';
@@ -30,7 +30,7 @@ export class App extends Component {
       }
 
       if (prevState.search !== search){
-        const data = await getPosts({ page, q });
+        const data = await getImages({ page, q });
         
         if (!data.totalHits) {
           throw new Error('We have nothing for this search');
@@ -50,7 +50,7 @@ export class App extends Component {
       }
 
       if (prevState.page !== page && page !== 1) {
-        const data = await getPosts({ page, q });
+        const data = await getImages({ page, q });
 
         this.setState({
           posts: [
@@ -94,8 +94,7 @@ export class App extends Component {
 
   render() {
     const { posts, status, totalImages } = this.state;
-    console.log(totalImages);
-     console.log(posts.length);   
+    
     return (
       <Wrapper>
         <Searchbar onSubmit={this.handleSubmit} />
